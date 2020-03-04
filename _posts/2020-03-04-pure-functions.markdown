@@ -24,7 +24,6 @@ It is obvious we should strive to make our functions pure, whenever possible.
 No need to be dogmatic about it, though. Sometimes it just doesn't work.
 
 ## Advantages
-1.  
 1. Some compilers and interpreters can differentiate pure functions from their counterparts and can apply optimizations to them. For instance, calls to pure functions can get replaced with constants, if the parameters are known at compile time.
 2. They are easier to debug and reason about. 
 3. It's easier to write tests and achieve high levels of test coverage, because they reduce the need for mocking / stubing. 
