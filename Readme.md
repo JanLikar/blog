@@ -1,5 +1,4 @@
 
-    poetry run lektor server
-    poetry run lektor build
-    poetry run lektor deploy
-
+    lektor server
+    lektor build
+    lektor deploy
