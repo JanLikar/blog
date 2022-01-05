@@ -1,8 +1,12 @@
 [project]
 name = Ctrl-D
+url = https://www.ctrl-d.io
 
 [servers.production]
 name = Production
 enabled = yes
 default = yes
 target = rsync://j@www.ctrl-d.io:/var/www/html
+
+[packages]
+lektor-atom = 0.4.0
