@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="75mm"
+   height="42mm"
+   viewBox="0 0 75 42"
+   version="1.1"
+   id="svg43655"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="logo.svg"
+   inkscape:export-filename="/home/j/Sojects/ctrl-d.io/theme/static/images/logo.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview43657"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.3592398"
+     inkscape:cx="-6.6213484"
+     inkscape:cy="154.86598"
+     inkscape:window-width="1852"
+     inkscape:window-height="1024"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g65440"
+     width="75mm" />
+  <defs
+     id="defs43652">
+    <rect
+       x="169.60625"
+       y="317.9079"
+       width="262.19519"
+       height="87.587914"
+       id="rect49682" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g65440"
+       transform="matrix(0.9846,0,0,0.98425567,-20.198109,-62.606363)">
+      <g
+         id="g43869-8"
+         transform="rotate(180,63.680487,87.039267)"
+         inkscape:export-filename="/home/j/Sojects/ctrl-d.io/theme/static/images/logo.png"
+         inkscape:export-xdpi="25.400007"
+         inkscape:export-ydpi="25.400007">
+        <rect
+           style="fill:#000000;stroke-width:0.162868"
+           id="rect43703-5"
+           width="68.317711"
+           height="1.3168854"
+           x="30.673883"
+           y="67.798882" />
+        <rect
+           style="fill:#000000;stroke-width:0.196079"
+           id="rect43744-8"
+           width="1.2808557"
+           height="31.078316"
+           x="30.673883"
+           y="67.798882" />
+      </g>
+      <g
+         id="g43869-8-8"
+         transform="translate(-10.159858,-4.1910559)"
+         inkscape:export-filename="/home/j/Sojects/ctrl-d.io/theme/static/images/logo.png"
+         inkscape:export-xdpi="25.400007"
+         inkscape:export-ydpi="25.400007">
+        <rect
+           style="fill:#000000;stroke-width:0.162868"
+           id="rect43703-5-9"
+           width="68.317711"
+           height="1.3168854"
+           x="30.673883"
+           y="67.798882" />
+        <rect
+           style="fill:#000000;stroke-width:0.196079"
+           id="rect43744-8-6"
+           width="1.2808557"
+           height="31.078316"
+           x="30.673883"
+           y="67.798882" />
+      </g>
+      <text
+         xml:space="preserve"
+         transform="matrix(0.65664128,0,0,0.65664128,-83.94949,-148.56534)"
+         id="text49680"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:39.9999px;line-height:2.15;font-family:'Roboto Condensed';-inkscape-font-specification:'Roboto Condensed, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect49682)"
+         inkscape:export-filename="/home/j/Sojects/ctrl-d.io/theme/static/images/logo.png"
+         inkscape:export-xdpi="25.400007"
+         inkscape:export-ydpi="25.400007"><tspan
+           x="169.60547"
+           y="370.90807"
+           id="tspan73414">Ctrl-D</tspan></text>
+    </g>
+  </g>
+</svg>

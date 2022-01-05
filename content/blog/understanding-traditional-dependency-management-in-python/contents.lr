@@ -1,0 +1,60 @@
+title: Understanding traditional dependency management in Python
+---
+author: Jan Likar
+---
+body:
+
+The aim of this post is to describe current best practices surrounding traditional dependency management in Python and the elusive difference between how they should be handled in library and application packages.
+
+## Differences between requirements.txt and setup.py
+Both `requirements.txt` and `setup.py` can be used to specify dependencies, but their purposes are orthogonal.
+
+`setup.py` is used to declare the versions of dependencies which *should* work with the package.
+
+`requirements.txt` is used to store a specific combination of dependency versions so they can be installed in a reproducible manner.
+
+## Dependency pinning
+A dependency is pinned if it is specified in a way there's only a single version of it that could be installed.
+
+This is crucial for reproducibility.
+
+For example, running
+
+    pip install requests==2.0.0
+
+would be considered as installing a pinned version of requests.
+
+### Libraries
+When developing a Python library, dependency pinning is generally undesired.
+
+Picture a scenario where your library (lib A) pins its dependency (lib B) to `=1.1.1`.
+Another library (lib C) also needs lib B, and it specifies its version as `^1.1.2`.
+
+If the developer's code depends both on lib A and lib C, he will be unable to install them together because no version of lib B will 
+ever match both `=1.1.1` and `^1.1.2`.
+
+The problem with this is that lib A would most likely work just fine with version `1.1.2` of lib B (as long as [semantic versioning](https://semver.org) is respected).
+
+The developer of a dependent package can always apply additional constraints if needed, but he cannot loosen them up.
+
+Libraries should, therefore,  specify their dependencies in `setup.py` and as loosely as possible.
+
+
+### Applications
+On the other hand, when developing deliverable applications, it is often desirable to pin to specific versions of dependencies.
+Only so can you guarantee the application will work as designed after it is deployed.
+
+Pinning might make the package harder to install in a global namespace, because version conflicts can arise.
+
+But this can be solved by the developer by packaging the application with vendored dependencies or by the user by installing it in a separate virtualenv.
+
+See [pipx](https://github.com/pypa/pipx) for an elegant solution.
+
+The best way (I've found so far) to pin application dependencies is to specify them with loose constraints in `setup.py` and use [pip-tools](https://github.com/jazzband/pip-tools) to generate the `requirements.txt` lock file.
+
+
+## Modern times, modern solutions?
+[Poetry](https://python-poetry.org/) does *the right thing* by default so it can be used for both libraries and applications.
+
+---
+pub_date: 2022-01-06

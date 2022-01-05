@@ -1,0 +1,8 @@
+[project]
+name = Ctrl-D
+
+[servers.production]
+name = Production
+enabled = yes
+default = yes
+target = rsync://j@www.ctrl-d.io:/var/www/html

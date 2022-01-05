@@ -1,0 +1,185 @@
+title:
+
+ An approach to transparent, reproducible Python development environments
+---
+body:
+
+This post will try to address the reasons for the "works on my machine" fiasco and ways of reliably solving it.
+
+When I was starting out doing serious, team-driven software engineering, managing Python development environments was a big pain point for me. I was new to the language, new to the tooling and new to established best practices.
+
+As years passed, I got better at it. And so did Python. It grew and improved in many ways. Yet clean development environment handling is still somewhat hard to get right. Luckily, we have better tooling now.
+
+So, what are the reasons for Python code working on one machine, but not the other?
+
+1. Incompatible Python dependencies.
+2. Incompatible Python interpreter versions.
+3. Incompatible system library versions.
+4. Incompatible OS.
+
+### OS compatibility
+No. 4 is out of scope for this blog post, but for completeness' sake let's mention containerization as a possible solution.
+
+[Packaging the app into a container](https://runnable.com/docker/python/dockerize-your-python-application) will make the code effectively isolated from
+the host OS and *should* run equally well on a Windows host as on a Linux host.
+
+If done right, it would also fix other 3 sources of problems. It can be appropriate for some use cases - especially if the app is to be deployed to production as a container.
+
+But using it is hardly "transparent". Furthermore, it introduces a new layer of complexity into your development environment, which is often undesirable.
+
+### Partial solutions
+**Dependency version inconsistencies** can be remedied by using virtualenvs and pinning dependencies with [pip-tools](https://github.com/jazzband/pip-tools), manually using `requirements.txt` or using [Poetry](https://python-poetry.org/). This can be enough for many simple use cases.
+
+What was historically somewhat harder to tackle are **Python interpreter version inconsistencies**. Sometimes installing the right version of Python system-wide can help, but it is error-prone and it may break OS utilities that depend on a specific Python version. It is also not appropriate when developing multiple Python packages with different version requirements. Pyenv is a step in the right direction, see *Addendum B*, but there are better ways.
+
+**System library version inconsistencies** are very hard to solve in a maintainable way. Admittedly, they are less common, but there are very few general solutions, so they must usually be dealt with on a case-by-case basis. Installing the shared libraries manually and overriding the system libraries typically works, but nobody wants to deal with that.
+
+### Isolated Python interpreters using Nix and Poetry
+Nix is a package manager (like brew, apt, yum) built for NixOS. But that doesn't mean it can be used only on NixOS. It even works on Windows!
+
+What makes it different from other package managers is the fact it builds all dependencies in isolation from the host OS and uses a clever dependency management approach which enables you to install all required packages - even if they depend on different versions of the same dependency! So-called dependency hell is completely out of the question!
+
+While Nix can also be used to install Python packages, many PyPi packages are not available as Nix packages, so it makes sense to use Nix for system dependencies and Poetry for Python dependencies.
+
+#### Nix
+
+Firstly, [install Nix](https://nixos.wiki/wiki/Nix_Installation_Guide).
+
+Let's say your Python project depends on Python 3.9 with httpx. You also need Terraform and awscli for deploying the app.
+
+Create a shell.nix file in the root directory of your project:
+
+    { pkgs ? import <nixpkgs> {} }:
+
+    pkgs.mkShell {
+        buildInputs = [
+            pkgs.terraform
+            pkgs.awscli
+            pkgs.python39
+            pkgs.python39Packages.poetry
+        ];
+    }
+
+If you now run nix-shell in the same directory you'll notice all of the specified dependencies are available to you:
+
+    > nix-shell 
+    > aws --version
+    aws-cli/1.19.1 Python/3.9.7 Linux/5.13.0-22-generic botocore/1.20.0
+    > python --version
+    Python 3.9.6
+
+Notice how they report different versions of Python. With Nix they can both coexist at the same time.
+
+What's absolutely amazing about this is that once you close your current shell, the system will behave exactly like before. The new environment will be there for you, but only when you need it.
+
+#### Poetry
+
+Now for Python dependencies:
+
+    > nix-shell
+    > poetry init
+    This command will guide you through creating your pyproject.toml config.
+
+    Package name [env-exp]:  
+    Version [0.1.0]:  
+    Description []:  
+    Author [Jan Likar, n to skip]:  n
+    License []:  
+    Compatible Python versions [^3.9]:  ^3.9
+
+    Would you like to define your main dependencies interactively? (yes/no) [yes] no
+    Would you like to define your development dependencies interactively? (yes/no) [yes] no
+    Generated file
+
+    [tool.poetry]
+    name = "env-exp"
+    version = "0.1.0"
+    description = ""
+    authors = ["Your Name <you@example.com>"]
+
+    [tool.poetry.dependencies]
+    python = "^3.9"
+
+    [tool.poetry.dev-dependencies]
+
+    [build-system]
+    requires = ["poetry-core>=1.0.0"]
+    build-backend = "poetry.core.masonry.api"
+
+You can add the dependencies like this:
+
+    > poetry add httpx
+    > poetry install
+
+As you can see httpx is now available and ready for use:
+
+    > poetry run python
+    Python 3.9.6 (default, Jun 28 2021, 08:57:49) 
+    [GCC 10.3.0] on linux
+    Type "help", "copyright", "credits" or "license" for more information.
+    >>> import httpx
+    >>> httpx.get("http://example.com")
+    <Response [200 OK]>
+  
+Hardly magic, but it sure feels like it is.
+
+[Project isolation beyont requirements.txt](https://niteo.co/blog/project-isolation-beyond-requirements-txt) is a similar take on this approach (and inspiration for this post).
+
+See [Reproducible environments with Nix](https://www.tweag.io/blog/2020-08-12-poetry2nix/) for packaging your app so it can be installed using Nix.
+
+### Addendum A: Automatically loading the development environment
+[Direnv](https://direnv.net/) can be used to automatically run nix-shell when you enter your project directory.
+
+Install it and add the following line to `.envrc` in the root of your project:
+
+     use nix
+
+
+Now run
+
+    direnv allow .
+
+#### Automatic Poetry environment handling
+For bonus points you can also automatically load the virtualenv.
+
+Add to `~/.direnvrc`:
+
+    layout_poetry() {
+    if [[ ! -f pyproject.toml ]]; then
+        log_error 'No pyproject.toml found.  Use `poetry new` or `poetry init` to create one first.'
+        exit 2
+    fi
+
+    local VENV=$(dirname $(poetry run which python))
+    export VIRTUAL_ENV=$(echo "$VENV" | rev | cut -d'/' -f2- | rev)
+    export POETRY_ACTIVE=1
+    PATH_add "$VENV"
+    }
+
+ and to `.envrc`:
+
+    layout_poetry
+
+
+That's it! From now on whenever you navigate to your project's root directory your shell will behave as if you ran `nix-shell; poetry shell`.
+
+## Addendum B: Pyenv
+[Pyenv](https://github.com/pyenv/pyenv) is a Python version manager which enables switching between multiple Python interpreters.
+
+For instance, to use Python 3.9.7 in the current directory, you would run:
+
+
+    pyenv install 3.9.7
+    pyenv local 3.9.7
+
+
+You would then install Poetry by simply running
+
+    pip install poetry
+
+While [Poetry install instructions](https://python-poetry.org/docs/) do not recommend installing using pip, in this case it should be perfectly fine, because your're using an isolated Python interpreter. If in doubt, you can still use the official instructions or the excelent [pipx](https://github.com/pypa/pipx).
+
+---
+pub_date: 2022-01-05
+---
+author: Jan Likar

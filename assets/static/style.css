@@ -1,0 +1,69 @@
+body {
+    font-family: Roboto;
+    margin: 50px 25px;
+    font-size: 1.2em;
+    line-height: 1.25em;
+}
+
+a {
+    color: #2a99b6;
+}
+
+a:hover {
+    color: #33bbdf;
+}
+
+header, footer, div.page, nav {
+    width: 56%;
+    margin: 0 auto;
+    background: #daeef3;
+    padding: 20px 30px;
+}
+
+header h1 {
+    color: #169bbd;
+    margin: 0;
+    font-weight: normal;
+    font-size: 42px;
+}
+
+nav {
+    background-color: #B3DCE7;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 8px 0 0;
+    padding: 0;
+}
+
+div.page {
+    background: #f1fbfe;
+    
+}
+
+#logo {
+    padding: 0;
+    max-height: 5em;
+}
+
+
+h3, h4, h5, h6 {
+    padding-top: 1.8em;
+}
+
+pre {
+    padding: 1em;
+    background-color: white;
+}
+
+@font-face {
+    font-family: Roboto;
+    src: url("Roboto-Regular.ttf");
+}
