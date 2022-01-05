@@ -5,6 +5,10 @@ body {
     line-height: 1.25em;
 }
 
+#main-menu a {
+    color: black;
+}
+
 a {
     color: #2a99b6;
 }
