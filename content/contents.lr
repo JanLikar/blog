@@ -1,5 +1,9 @@
 title: Welcome to Ctrl-D!
 ---
-body: This website currently hosts my blog dedicated to software engineering.
+body:
+
+This website currently hosts my blog dedicated to software engineering.
+
+Btw, I'm looking for a designer (who would've guessed?) to create a new logo for me and a better website template. Reach out at `i-have-a-design-for-you@ctrl-d.io`
 ---
 _template: page.html
