@@ -49,16 +49,18 @@ Let's say your Python project depends on Python 3.9 with httpx. You also need Te
 
 Create a shell.nix file in the root directory of your project:
 
-    { pkgs ? import <nixpkgs> {} }:
+```nix
+{ pkgs ? import <nixpkgs> {} }:
 
-    pkgs.mkShell {
-        buildInputs = [
-            pkgs.terraform
-            pkgs.awscli
-            pkgs.python39
-            pkgs.python39Packages.poetry
-        ];
-    }
+pkgs.mkShell {
+    buildInputs = [
+        pkgs.terraform
+        pkgs.awscli
+        pkgs.python39
+        pkgs.python39Packages.poetry
+    ];
+}
+```
 
 If you now run nix-shell in the same directory you'll notice all of the specified dependencies are available to you:
 
@@ -144,19 +146,21 @@ For bonus points you can also automatically load the virtualenv.
 
 Add to `~/.direnvrc`:
 
-    layout_poetry() {
-        if [[ ! -f pyproject.toml ]]; then
-            log_error 'No pyproject.toml found. Use `poetry new` or `poetry init` to create one first.'
-                exit 2
-        fi
+```bash
+layout_poetry() {
+    if [[ ! -f pyproject.toml ]]; then
+        log_error 'No pyproject.toml found. Use `poetry new` or `poetry init` to create one first.'
+            exit 2
+    fi
 
-        # create venv if it doesn't exist
-        poetry run true
+    # create venv if it doesn't exist
+    poetry run true
 
-        export VIRTUAL_ENV=$(poetry env info --path)
-        export POETRY_ACTIVE=1
-        PATH_add "$VIRTUAL_ENV/bin"
-    }
+    export VIRTUAL_ENV=$(poetry env info --path)
+    export POETRY_ACTIVE=1
+    PATH_add "$VIRTUAL_ENV/bin"
+}
+```
 
  and to `.envrc`:
 
