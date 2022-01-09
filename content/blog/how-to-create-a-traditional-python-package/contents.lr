@@ -1,0 +1,81 @@
+title: How to create a traditional Python package
+---
+author: Jan Likar
+---
+body:
+
+"Traditional" refers to using a plain `setup.py` file instead of tools like `Poetry` which use different package configuration file formats.
+
+This blog post is not meant to be a definitive guide. It's only a quick overview of an acceptable Python package configuration.
+
+## Setup.py
+Every installable package needs a `setup.py` file in its root directory. This file is used to specify package's metadata and dependencies.
+
+The metadata is mostly used if you intend to publish the package to PyPi or other package index.
+
+A simple `setup.py` file might look like:
+
+```python
+#!/usr/bin/env python
+
+from setuptools import find_packages, setup
+
+setup(
+    name='MyPackage',
+    version='1.0',
+    description='An example Python package.',
+    author='Jan Likar',
+    author_email='jan.likar@protonmail.com',
+    install_requires=[
+        'requests',
+        'pandas',
+    ],
+    packages=find_packages("src", exclude=["tests"]),
+    package_dir={"": "src"},
+)
+```
+
+## Recommended directory structure
+The directory `setup.py` lives in is by definition the root directory of the package.
+
+While the source code of the package can be organized in almost any structure imaginable,
+it is recommended to put your package's files under `src/`.
+
+If you need a different layout, change `package_dir` and `packages` arguments in `setup.py`.
+
+Here's an example:
+
+```
+.
+├── setup.py
+├── src
+│ ├── my_package
+│     └── __init__.py
+└── tests
+      └── test_my_package.py
+
+```
+
+## Installing the package
+Create and activate a virtualenv and run:
+
+    pip install -e ".[dev]"
+
+This will install you package (including development dependencies) in *editable mode*.
+This means any changes to your source code will be reflected automatically, without needing to reinstall the package.
+
+## Dependency management
+Dependencies should be listed in `setup.py` and should not be pinned to a specific version.
+
+If you need version locking for reproducible deployments, generate a `requirements.txt` file.
+
+`pip freeze` or, even better, `pip-compile` (contained in [pip-tools](https://github.com/jazzband/pip-tools)) can be used for this purpose:
+
+```
+    pip freeze --local > requirements.txt
+    # Or
+    pip-compile
+```
+
+---
+pub_date: 2022-01-09

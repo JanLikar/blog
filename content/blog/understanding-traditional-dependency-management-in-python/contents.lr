@@ -9,7 +9,7 @@ The aim of this post is to describe current best practices surrounding tradition
 ## Differences between requirements.txt and setup.py
 Both `requirements.txt` and `setup.py` can be used to specify dependencies, but their purposes are orthogonal.
 
-`setup.py` is used to declare the versions of dependencies which *should* work with the package.
+`setup.py` is used to specify the versions of dependencies which *should* work with the package.
 
 `requirements.txt` is used to store a specific combination of dependency versions so they can be installed in a reproducible manner.
 
