@@ -1,8 +1,9 @@
 body {
     font-family: Roboto;
     margin: 50px 25px;
-    font-size: 1.2em;
-    line-height: 1.25em;
+    font-size: 16px;
+    line-height: 1.4;
+    color: ;
 }
 
 #main-menu a {
@@ -59,12 +60,16 @@ div.page {
 
 
 h2, h3, h4, h5, h6 {
-    padding-top: 1.8em;
+    color: #222;
+    margin: 2.5rem 0 1.5rem 0;
+    line-height: 1.25;
 }
 
 pre {
     padding: 1em;
-    background-color: white;
+    background-color: #eee;
+    padding: 0.05em 0.2em;
+    border: 1px solid #ccc;
 }
 
 @font-face {
