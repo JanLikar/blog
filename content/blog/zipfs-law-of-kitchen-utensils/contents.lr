@@ -1,0 +1,23 @@
+title: Zipf's law of kitchen utensils
+---
+author: Jan Likar
+---
+body:
+
+Did you ever notice how as time passes more and more of your cups,
+plates and glasses from your kitchen cupboard become the last surviving utensil from a set - a one of a kind? 
+
+There is simple mathematical explanation.
+
+Let's say we have 1 brown cup and a set of 4 blue cups.
+
+If no family member prefers either cup color, grabbing the first one he finds, when he
+decides to have a warm, tasty cup of tea, it means a blue cup will be used 4x more often than
+the brown one.
+
+Because cups only very rarely break on their own volition this means a blue cup is also 4x more likely to break.
+
+Unsurprisingly, this leads to colorful cupboard contents.
+
+---
+pub_date: 2022-02-06
