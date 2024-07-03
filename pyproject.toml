@@ -6,7 +6,7 @@ authors = ["Jan Likar <jan.likar@protonmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-Lektor = "^3.3.0"
+Lektor = "^3.3.11"
 
 [tool.poetry.dev-dependencies]
 
